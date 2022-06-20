@@ -1,0 +1,22 @@
+version: '1'
+services:
+  node-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "3080:3080"
+    container_name: node-api
+    volumes:
+       - ./api:/usr/src/app/api
+       - /usr/src/app/api/node_modules
+  vue-front:
+    build:
+      context: ./vue-front
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: vue-front
+    volumes:
+       - ./vue-front:/usr/src/app/vue-front
+       - /usr/src/app/vue-front/node_modules
