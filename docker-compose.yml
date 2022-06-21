@@ -1,5 +1,25 @@
-version: '1'
+version: "2.2"
 services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    networks:
+      - mnet
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_OPTIONS_EDITORTHEME: "ambiance"
+      ME_CONFIG_BASICAUTH_USERNAME: "user"
+      ME_CONFIG_BASICAUTH_PASSWORD: "password"
+      ME_CONFIG_MONGODB_SERVER: "mongo"
+    networks:
+      - mnet
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+    restart: unless-stopped
   node-api:
     build:
       context: ./api
@@ -8,8 +28,10 @@ services:
       - "3080:3080"
     container_name: node-api
     volumes:
-       - ./api:/usr/src/app/api
-       - /usr/src/app/api/node_modules
+      - ./api:/usr/src/api
+      - /usr/src/api/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   vue-front:
     build:
       context: ./vue-front
@@ -18,5 +40,11 @@ services:
       - "8080:8080"
     container_name: vue-front
     volumes:
-       - ./vue-front:/usr/src/app/vue-front
-       - /usr/src/app/vue-front/node_modules
+      - ./vue-front:/usr/src/front
+      - /usr/src/front/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+networks:
+  mnet:
+    driver: bridge

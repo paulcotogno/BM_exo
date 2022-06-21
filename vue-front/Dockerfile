@@ -1,6 +1,6 @@
 FROM node:10
 
-WORKDIR /usr/src/app/vue-front
+WORKDIR /usr/src/front
 
 COPY package*.json ./
 
