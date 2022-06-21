@@ -16,10 +16,10 @@ services:
     networks:
       - mnet
     ports:
-      - 8081:8081
+      - 8089:8081
     depends_on:
       - mongo
-    restart: unless-stopped
+    restart: always
   node-api:
     build:
       context: ./api
@@ -32,6 +32,8 @@ services:
       - /usr/src/api/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+    networks:
+      - mnet
   vue-front:
     build:
       context: ./vue-front
@@ -44,6 +46,8 @@ services:
       - /usr/src/front/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+    networks:
+      - mnet
 
 networks:
   mnet:

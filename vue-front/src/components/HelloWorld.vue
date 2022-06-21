@@ -1,16 +1,24 @@
 <template>
   <div class="hello">
     <p>Hello !</p>
+    <div @click="callApi">Appel</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+  methods: {
+    callApi() {
+      fetch("http://localhost:3080/api")
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
