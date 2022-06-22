@@ -13,7 +13,6 @@ main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect("mongodb://mongo:27017/test");
-  console.log("c bon");
 
   //Get the default connection
   var db = mongoose.connection;
