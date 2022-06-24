@@ -1,19 +1,42 @@
 <template>
   <div class="hello">
-    <p>Hello !</p>
-    <div @click="callApi">Appel</div>
+    <Three :dataDpts="dataDpts" />
   </div>
 </template>
 
 <script>
+import getPourcentage from '../methods/fetchApi';
+import Three from './Three.vue';
+
+const dpts = [75, 77, 78, 91, 92, 93, 94, 95, 25];
+
 export default {
   name: "HelloWorld",
+  components: {
+    Three
+  },
   props: {
     msg: String,
   },
+  data() {
+    return {
+      dataDpts: undefined
+    }
+  },
+  mounted() {
+    const dataArray = [];
+
+    dpts.forEach(element => {
+      getPourcentage(element).then((data) => {
+        dataArray.push(data);
+      })
+    });
+
+    this.dataDpts = dataArray;
+  },
   methods: {
     callApi() {
-      fetch("http://localhost:3080/api")
+      fetch("http://localhost:3080/result/")
         .then((res) => res.json())
         .then((data) => console.log(data));
     },
@@ -21,20 +44,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>
